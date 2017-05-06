@@ -15,7 +15,7 @@ func NewPathNormalizer() unis.Processor {
 	})
 
 	suffixRemover := unis.NewSuffixRemover(slash)
-	slashPrepender := unis.NewPrependerIfNotExists(0, slash[0])
+	slashPrepender := unis.NewTargetedJoiner(0, slash[0])
 
 	toLower := unis.ProcessorFunc(strings.ToLower) // convert standard functions to UNIS and add to the chain.
 	cleanPath := unis.ProcessorFunc(path.Clean)    // convert standard functions to UNIS and add to the chain.

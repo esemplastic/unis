@@ -14,15 +14,15 @@ func newPathNormalizer() Processor {
 	})
 
 	suffixRemover := NewSuffixRemover(slash)
-	slashPrepender := NewPrependerIfNotExists(0, slash[0])
+	slashPrepender := NewTargetedJoiner(0, slash[0])
 
 	toLower := ProcessorFunc(strings.ToLower)
-	cleanPath := ProcessorFunc(path.Clean)
+	pathCleaner := ProcessorFunc(path.Clean)
 	return NewChain(
-		cleanPath,
-		slashPrepender,
 		replacer,
 		suffixRemover,
+		slashPrepender,
+		pathCleaner,
 		toLower,
 	)
 }

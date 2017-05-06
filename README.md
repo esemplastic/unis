@@ -136,7 +136,7 @@ func NewPathNormalizer() unis.Processor {
 	})
 
 	suffixRemover := unis.NewSuffixRemover(slash)
-	slashPrepender := unis.NewPrependerIfNotExists(0, slash[0])
+	slashPrepender := unis.NewTargetedJoiner(0, slash[0])
 
 	toLower := unis.ProcessorFunc(strings.ToLower) // convert standard functions to UNIS and add to the chain.
 	cleanPath := unis.ProcessorFunc(path.Clean)    // convert standard functions to UNIS and add to the chain.
@@ -189,11 +189,20 @@ NewPrefixRemover(prefix string) ProcessorFunc
 // which returns the result prepended with that "prefix".
 NewPrepender(prefix string) ProcessorFunc
 
-// NewPrependerIfNotExists accepts an "expectedIndex" as int
-// and a "prefixChar" as byte and returns a new processor
-// which returns the result prepended with that "prefixChar"
-// if the "original" string[expectedIndex] != prefixChar.
-NewPrependerIfNotExists(expectedIndex int, prefixChar byte) ProcessorFunc
+// NewExclusivePrepender accepts a "prefix" and returns a new processor
+// which returns the result prepended with that "prefix"
+// if the "original"'s prefix != prefix.
+// The difference from NewPrepender is that
+// this processor will make sure that
+// the prefix is that "prefix" series of characters,
+// i.e:
+// 1. "//path" -> NewPrepender("/") |> "//path"
+//    It has a prefix already, so it doesn't prepends the "/" to the "//path",
+//    but it doesn't checks if that is the correct prefix.
+// 1. "//path" -> NewExclusivePrepender("/") |> "/path"
+//     Checks if that is the correct prefix, if so returns as it's,
+//     otherwise replace the duplications and prepend the correct prefix.
+NewExclusivePrepender(prefix string) ProcessorFunc
 ```
 
 
@@ -232,6 +241,19 @@ NewRangeBegin(begin int) ProcessorFunc
 NewRangeEnd(end int) ProcessorFunc
 ```
 
+### Joiner
+
+```go
+// NewTargetedJoiner accepts an "expectedIndex" as int
+// and a "joinerChar" as byte and returns a new processor
+// which returns the result concated with that "joinerChar"
+// if the "original" string[expectedIndex] != joinerChar.
+//
+// i.e:
+// 1. "path", NewTargetedJoiner(0, '/') |> "/path"
+// 2. "path/anything", NewTargetedJoiner(5, '*') |> "path/*anything".
+NewTargetedJoiner(expectedIndex int, joinerChar byte) ProcessorFunc
+```
 
 ### Bonus: Divider
 

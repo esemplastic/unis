@@ -6,7 +6,7 @@ import (
 
 type replacements map[string]string
 
-func TestNewReplacer(t *testing.T) {
+func TestReplacer(t *testing.T) {
 	tests := []struct {
 		original string
 		result   string
