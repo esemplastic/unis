@@ -11,14 +11,14 @@ import (
 // Divider should be implemented by all string dividers.
 type Divider interface {
 	// Divide takes a string "original" and splits it into two pieces.
-	Devide(original string) (part1 string, part2 string)
+	Divide(original string) (part1 string, part2 string)
 }
 
 // DividerFunc is the alias type of Divider, it implements the Divider also.
 type DividerFunc func(original string) (string, string)
 
-// Devide takes a string "original" and splits it into two pieces.
-func (d DividerFunc) Devide(original string) (string, string) {
+// Divide takes a string "original" and splits it into two pieces.
+func (d DividerFunc) Divide(original string) (string, string) {
 	return d(original)
 }
 
@@ -46,10 +46,10 @@ func NewDivider(separator string) DividerFunc {
 // the result as it is, otherwise it inverts the order of the result.
 //
 // Rembmer: the "divider" by its nature, returns the original string
-// and empty as second parameter if the divide action has beeing a failure.
+// and empty as second parameter if the divide action has being a failure.
 func NewInvertOnFailureDivider(divider Divider) DividerFunc {
 	return func(original string) (string, string) {
-		part1, part2 := divider.Devide(original)
+		part1, part2 := divider.Divide(original)
 		if part2 == "" {
 			return part2, part1
 		}
@@ -60,5 +60,5 @@ func NewInvertOnFailureDivider(divider Divider) DividerFunc {
 // Divide is an action which runs a new divider based on the "separator"
 // and the "original" string.
 func Divide(original string, separator string) (string, string) {
-	return NewDivider(separator).Devide(original)
+	return NewDivider(separator).Divide(original)
 }

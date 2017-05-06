@@ -1,5 +1,10 @@
 # UNIS
 
+<a href="https://travis-ci.org/esemplastic/unis"><img src="https://api.travis-ci.org/esemplastic/unis.svg?branch=master&style=flat-square" alt="Build Status"></a>
+<a href="http://goreportcard.com/report/esemplastic/unis"><img src="https://img.shields.io/badge/report%20card%20-a%2B-F44336.svg?style=flat-square" alt="http://goreportcard.com/report/esemplastic/unis"></a>
+<a href="https://godoc.org/gopkg.in/esemplastic/unis"><img src="https://img.shields.io/badge/docs-%20reference-5272B4.svg?style=flat-square" alt="Docs"></a>
+<a href="https://gitter.im/unis-go/Lobby#"><img src="https://img.shields.io/badge/community-%20chat-00BCD4.svg?style=flat-square" alt="Chat"></a>
+
 `UNIS` tries to share a common architecture and the necessary `interfaces` that will help you to refactor your project or application to a better place to work on. Choose one way to organise your `string utilities`, across your projects.
 
 Developers can now, move forward and implement their own types of string utilities based on the UNIS architecture. 
@@ -162,7 +167,7 @@ split a string into two different string pieces, and `Joiner` which should joins
 // Divider should be implemented by all string dividers.
 type Divider interface {
 	// Divide takes a string "original" and splits it into two pieces.
-	Devide(original string) (part1 string, part2 string)
+	Divide(original string) (part1 string, part2 string)
 }
 
 // NewDivider returns a new divider which splits
@@ -179,7 +184,7 @@ NewDivider(separator string) Divider
 // the result as it is, otherwise it inverts the order of the result.
 //
 // Rembmer: the "divider" by its nature, returns the original string
-// and empty as second parameter if the divide action has beeing a failure.
+// and empty as second parameter if the divide action has being a failure.
 NewInvertOnFailureDivider(divider Divider) Divider
 
 // Divide is an action which runs a new divider based on the "separator"
