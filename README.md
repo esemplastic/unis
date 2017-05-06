@@ -5,7 +5,9 @@
 # UNIS: A Common Architecture for String Utilities in Go
 
 <a href="https://travis-ci.org/esemplastic/unis"><img src="https://api.travis-ci.org/esemplastic/unis.svg?branch=master&style=flat-square" alt="Build Status"></a>
-<a href="http://goreportcard.com/report/esemplastic/unis"><img src="https://img.shields.io/badge/report%20card%20-a%2B-F44336.svg?style=flat-square" alt="http://goreportcard.com/report/esemplastic/unis"></a>
+<a href='https://coveralls.io/github/esemplastic/unis'><img src='https://coveralls.io/repos/github/esemplastic/unis/badge.svg?branch=master&style=flat-square' alt='Coverage Status' /></a>
+<a href="https://github.com/avelino/awesome-go"><img src="https://img.shields.io/badge/awesome-%E2%9C%93-ff69b4.svg?style=flat-square" alt="Awesome GoLang"></a>
+<a href="http://goreportcard.com/report/esemplastic/unis"><img src="https://img.shields.io/badge/report%20card%20-a%2B-006699.svg?style=flat-square" alt="http://goreportcard.com/report/esemplastic/unis"></a>
 <a href="https://godoc.org/github.com/esemplastic/unis"><img src="https://img.shields.io/badge/docs-%20reference-5272B4.svg?style=flat-square" alt="Docs"></a>
 <a href="https://gitter.im/unis-go/Lobby#"><img src="https://img.shields.io/badge/community-%20chat-00BCD4.svg?style=flat-square" alt="Chat"></a>
 
@@ -46,23 +48,24 @@ Everything implements that interface only -- **No, please don't close the browse
 
 ### TIP: Convert standard `strings` or `path` functions to `UNIS`
 
-Almost the most trivial go's standard package contains functions like 
-`strings.ToLower` which is a type of `func(string) string`, guess what -- `unis.ProcessorFunc` it's type of `func(string)string` too, so it's compatible with UNIS!
+The majority of `strings` and `path` packages contain functions like 
+`strings.ToLower` which is a type of `func(string) string`, guess what -- `unis.ProcessorFunc` it's type of `func(string)string` too, so UNIS is 100% compatible with standard library!
 
 Proof of concept:
 
 ```go
-cleanPath := unis.ProcessorFunc(path.Clean)
-toLower := unis.ProcessorFunc(strings.ToLower)
 // [...]
-unis.NewChain(cleanpath, toLower)
+pathCleaner := unis.ProcessorFunc(path.Clean)
+toLower := unis.ProcessorFunc(strings.ToLower)
+
+unis.NewChain(pathCleaner, toLower)
 // [...]
 ```
 
 ### Let's begin
 
 How many times are you using `strings.Replace` in your project? -- Correct, a lot.
-Spawning `strings.Replace` many times is dangerous because you may forget a replacement somewhere after a change.
+Spawning `strings.Replace` many times can be a dangerous decision because you may forget a replacement somewhere after a trivial change.
 
 UNIS has a function which can help you structure all of your `strings.Replace` to one spot
 based on the `replacements`. Replacements is just a map[$oldstring]$newstring.
@@ -172,7 +175,7 @@ func main() {
 
 ```go
 // NewConditional runs the 'p' processor, if the string didn't
-// changed then it assumes that that processor has being failed
+// changed then it assumes that that processor has being a failure
 // and it returns a Chain of the 'alternative' processor(s).
 NewConditional(p Processor, alternative ...Processor) ProcessorFunc
 ```

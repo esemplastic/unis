@@ -9,7 +9,7 @@ var emptyProcessor = ProcessorFunc(func(original string) string {
 })
 
 // NewConditional runs the 'p' processor, if the string didn't
-// changed then it assumes that that processor has being failed
+// changed then it assumes that that processor has being a failure
 // and it returns a Chain of the 'alternative' processor(s).
 func NewConditional(p Processor, alternative ...Processor) ProcessorFunc {
 	chainAlternative := NewChain(alternative...)
