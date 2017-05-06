@@ -9,7 +9,7 @@ package unis
 // return the "original[begin:end]".
 func NewRange(begin, end int) ProcessorFunc {
 	if begin <= -1 || end <= -1 {
-		return emptyProcessor
+		return OriginProcessor
 	}
 
 	return func(str string) string {
@@ -29,7 +29,7 @@ func NewRange(begin, end int) ProcessorFunc {
 // Returns the "original[begin:]".
 func NewRangeBegin(begin int) ProcessorFunc {
 	if begin <= -1 {
-		return emptyProcessor
+		return OriginProcessor
 	}
 	return func(str string) string {
 		l := len(str)
@@ -49,7 +49,7 @@ func NewRangeBegin(begin int) ProcessorFunc {
 func NewRangeEnd(end int) ProcessorFunc {
 	// end should be > 0
 	if end <= 0 {
-		return emptyProcessor
+		return OriginProcessor
 	}
 	return func(str string) string {
 		l := len(str)

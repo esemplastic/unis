@@ -5,10 +5,7 @@ import (
 )
 
 func TestPrefixRemover(t *testing.T) {
-	tests := []struct {
-		original string
-		result   string
-	}{
+	tests := []originalAgainstResult{
 		{"/api/users/42", "api/users/42"},
 		{"//api/users/42/", "api/users/42/"},
 		{"api/users/", "api/users/"},
@@ -16,35 +13,21 @@ func TestPrefixRemover(t *testing.T) {
 
 	prefixRemover := NewPrefixRemover("/")
 
-	for i, tt := range tests {
-		if expected, got := tt.result, prefixRemover(tt.original); expected != got {
-			t.Fatalf("[%d] - expected '%s' but got '%s'", i, expected, got)
-		}
-	}
+	testOriginalAgainstResult(prefixRemover, tests, t)
 }
 
 func TestPrepender(t *testing.T) {
-	tests := []struct {
-		original string
-		result   string
-	}{
+	tests := []originalAgainstResult{
 		{"/api/users/42", "/api/users/42"},
 		{"//api/users\\42", "//api/users\\42"},
 		{"api\\////users/", "/api\\////users/"},
 	}
 	prepender := NewPrepender("/")
-	for i, tt := range tests {
-		if expected, got := tt.result, prepender(tt.original); expected != got {
-			t.Fatalf("[%d] - expected '%s' but got '%s'", i, expected, got)
-		}
-	}
-}
 
+	testOriginalAgainstResult(prepender, tests, t)
+}
 func TestExclusivePrepender(t *testing.T) {
-	tests := []struct {
-		original string
-		result   string
-	}{
+	tests := []originalAgainstResult{
 		{"/api/users/42", "/api/users/42"},
 		// the only difference from simple Prepender is that this ExclusivePrepender
 		// will make sure that we have only one slash as a prefix.
@@ -52,9 +35,6 @@ func TestExclusivePrepender(t *testing.T) {
 		{"api\\////users/", "/api\\////users/"},
 	}
 	prepender := NewExclusivePrepender("/")
-	for i, tt := range tests {
-		if expected, got := tt.result, prepender(tt.original); expected != got {
-			t.Fatalf("[%d] - expected '%s' but got '%s'", i, expected, got)
-		}
-	}
+
+	testOriginalAgainstResult(prepender, tests, t)
 }

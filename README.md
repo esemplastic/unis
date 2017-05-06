@@ -26,6 +26,12 @@ The only requirement is the [Go Programming Language](https://golang.org/dl/).
 $ go get -u github.com/esemplastic/unis
 ```
 
+## What's inside?
+
+* `Processor`: Manipulates and returns a new string, based on a receiver string.
+* `Validator`: Validates a receiver string and returns a boolean and an error.
+* `Divider`: Splits a receiver string into two pieces and returns them.
+
 ## Getting started
 
 UNIS contains some basic implementations that you can see and learn from!
@@ -46,7 +52,7 @@ type Processor interface {
 As you can see, it contains just a function which accepts a string and returns a string.
 Everything implements that interface only -- **No, please don't close the browser yet!**
 
-### TIP: Convert standard `strings` or `path` functions to `UNIS`
+### TIP: Convert standard `strings` or `path` functions to `UNIS.Pocessor`
 
 The majority of `strings` and `path` packages contain functions like 
 `strings.ToLower` which is a type of `func(string) string`, guess what -- `unis.ProcessorFunc` it's type of `func(string)string` too, so UNIS is 100% compatible with standard library!
@@ -295,6 +301,63 @@ NewInvertOnFailureDivider(divider Divider) Divider
 Divide(original string, separator string) (string, string)
 ```
 
+
+### Validator
+
+```go
+// Validator is just another interface
+// for string utilities.
+// All validators should implement this interface.
+// Contains only one function "Valid" which accepts
+// a string and returns a boolean and an error.
+// It should compare that string "str" with
+// something and returns a true, nil or false, err.
+//
+// Validators can be used side by side with Processors.
+//
+// See .If for more.
+type Validator interface {
+	Valid(str string) (ok bool, err error)
+}
+
+// ValidatorFunc is just an "alias" for the Validator interface.
+// It implements the Validator.
+type ValidatorFunc func(str string) (bool, error)
+```
+
+`Validators` can be used side by side with `Processors`,
+
+```go
+// If receives a "validator" Validator and two Processors,
+// the first processor will be called when that validator passed,
+// the second processor will be called when the validator failed.
+// Both of the processors ("succeed" and "failure"), as always,
+// can be results of .NewChain.
+//
+// Returns a new string processor which checks the "validator"
+// against the "original" string, if passed then it runs the
+// "succeed", otherwise it runs the "failure".
+//
+// Remember: it returns a ProcessorFunc, meaning that can be used in a new chain too.
+func If(validator Validator, succeed Processor, failure Processor) ProcessorFunc
+```
+
+Example: 
+
+```go
+// [...]
+mailTo := unis.If(unis.IsMail, unis.NewPrepender("mailto:"), unis.ClearProcessor)
+// it checks if a string is an e-mail,if so then it runs the prepender
+// otherwise it runs the unis.ClearProcessor which returns an empty string.
+
+link := unis.If("ismail@homail.com") // link = "mailto:ismail@hotmail.com"
+link = unis.If("invalidmail@google.com.2") // link = ""
+
+// [...]
+```
+> `IsMail` is a `Validator`, see [expression_validator_test.go](https://github.com/esemplastic/unis/blob/master/expression_validator_test.go) for more.
+
+
 ## Support
 
 Help me share realistic design patterns by [starring](https://github.com/esemplastic/unis/stargazers) the project!
@@ -310,8 +373,8 @@ The goal is to make this repository authored by a `Community` which cares about 
 
 ## Versioning
 
-Current: **0.0.1**  
-Date: 6 May 2017
+Current: **0.0.2**  
+Date: 7 May 2017
 
 Read more about Semantic Versioning 2.0.0
 

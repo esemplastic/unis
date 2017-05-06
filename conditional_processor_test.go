@@ -28,18 +28,11 @@ func (s staticPathResolver) Process(original string) (result string) {
 var resolveStaticPath = newStaticPathResolver(':', '*')
 
 func TestConditional(t *testing.T) {
-	tests := []struct {
-		original string
-		result   string
-	}{
+	tests := []originalAgainstResult{
 		{"/api/users/:id", "/api/users/"},
 		{"/public/assets/*file", "/public/assets/"},
 		{"/profile/:id/files/*file", "/profile/"},
 	}
 
-	for i, tt := range tests {
-		if expected, got := tt.result, resolveStaticPath.Process(tt.original); expected != got {
-			t.Fatalf("[%d] - expected '%s' but got '%s'", i, expected, got)
-		}
-	}
+	testOriginalAgainstResult(resolveStaticPath, tests, t)
 }

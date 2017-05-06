@@ -4,10 +4,6 @@
 
 package unis
 
-var emptyProcessor = ProcessorFunc(func(original string) string {
-	return original
-})
-
 // NewConditional runs the 'p' processor, if the string didn't
 // changed then it assumes that that processor has being a failure
 // and it returns a Chain of the 'alternative' processor(s).
