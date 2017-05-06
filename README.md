@@ -1,17 +1,30 @@
-# UNIS
+<p align="center">
+<img width="442" height="177" src="https://github.com/esemplastic/unis/raw/master/logo.png" alt="UNIS: A Common Architecture for String Utilities in the Go Programming Language">
+</p>
+
+# UNIS: A Common Architecture for String Utilities in Go
 
 <a href="https://travis-ci.org/esemplastic/unis"><img src="https://api.travis-ci.org/esemplastic/unis.svg?branch=master&style=flat-square" alt="Build Status"></a>
 <a href="http://goreportcard.com/report/esemplastic/unis"><img src="https://img.shields.io/badge/report%20card%20-a%2B-F44336.svg?style=flat-square" alt="http://goreportcard.com/report/esemplastic/unis"></a>
-<a href="https://godoc.org/gopkg.in/esemplastic/unis"><img src="https://img.shields.io/badge/docs-%20reference-5272B4.svg?style=flat-square" alt="Docs"></a>
+<a href="https://godoc.org/github.com/esemplastic/unis"><img src="https://img.shields.io/badge/docs-%20reference-5272B4.svg?style=flat-square" alt="Docs"></a>
 <a href="https://gitter.im/unis-go/Lobby#"><img src="https://img.shields.io/badge/community-%20chat-00BCD4.svg?style=flat-square" alt="Chat"></a>
 
-`UNIS` tries to share a common architecture and the necessary `interfaces` that will help you to refactor your project or application to a better place to work on. Choose one way to organise your `string utilities`, across your projects.
+`UNIS` shares a common architecture and the necessary `interfaces` that will help you to refactor your project or application to a better place to work on. Choose one way to organise your `string utilities`, across your different projects.
 
 Developers can now, move forward and implement their own types of string utilities based on the UNIS architecture. 
 
 **Apply good design patterns** from the beginning and you will be saved from a lot of work later on. Trust me.
 
-## Documentation
+
+## Installation
+
+The only requirement is the [Go Programming Language](https://golang.org/dl/).
+
+```sh
+$ go get -u github.com/esemplastic/unis
+```
+
+## Getting started
 
 UNIS contains some basic implementations that you can see and learn from!
 
@@ -31,8 +44,22 @@ type Processor interface {
 As you can see, it contains just a function which accepts a string and returns a string.
 Everything implements that interface only -- **No, please don't close the browser yet!**
 
+### TIP: Convert standard `strings` or `path` functions to `UNIS`
 
-### Continue...
+Almost the most trivial go's standard package contains functions like 
+`strings.ToLower` which is a type of `func(string) string`, guess what -- `unis.ProcessorFunc` it's type of `func(string)string` too, so it's compatible with UNIS!
+
+Proof of concept:
+
+```go
+cleanPath := unis.ProcessorFunc(path.Clean)
+toLower := unis.ProcessorFunc(strings.ToLower)
+// [...]
+unis.NewChain(cleanpath, toLower)
+// [...]
+```
+
+### Let's begin
 
 How many times are you using `strings.Replace` in your project? -- Correct, a lot.
 Spawning `strings.Replace` many times is dangerous because you may forget a replacement somewhere after a change.
@@ -88,6 +115,57 @@ Processors []Processor
 // NewChain returns a new chain of processors
 // the result of the first goes to the second and so on.
 NewChain(processors ...Processor) ProcessorFunc
+```
+
+Example:
+```go
+package main
+
+import (
+	"path"
+	"strings"
+
+	"github.com/esemplastic/unis"
+)
+
+func NewPathNormalizer() unis.Processor {
+	slash := "/"
+	replacer := unis.NewReplacer(map[string]string{
+		`\`:  slash,
+		`//`: slash,
+	})
+
+	suffixRemover := unis.NewSuffixRemover(slash)
+	slashPrepender := unis.NewPrependerIfNotExists(0, slash[0])
+
+	toLower := unis.ProcessorFunc(strings.ToLower) // convert standard functions to UNIS and add to the chain.
+	cleanPath := unis.ProcessorFunc(path.Clean)    // convert standard functions to UNIS and add to the chain.
+	return unis.NewChain(
+		cleanPath,
+		slashPrepender,
+		replacer,
+		suffixRemover,
+		toLower,
+	)
+}
+
+var defaultPathNormalizer = NewPathNormalizer()
+
+func NormalizePath(path string) string {
+	if path == "" {
+		return path
+	}
+	return defaultPathNormalizer.Process(path)
+}
+
+func main() {
+	original := "api\\////users/"
+	result := NormalizePath(original) // /api/users
+	print(original)
+	print(" |> ")
+	println(result)
+}
+
 ```
 
 ### Conditional
@@ -222,7 +300,7 @@ If you are interested in contributing to the UNIS project, please make a [PR](ht
 
 ## People
 
-A list of all contributors can be found [here](CONTRIBUTORS).
+A list of all contributors can be found [here](CONTRIBUTORS.md).
 
 ## TODO
 
