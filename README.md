@@ -1,7 +1,4 @@
-<img height="70"  src="https://raw.githubusercontent.com/esemplastic/unis/master/logo.png" style="float:left" alt="UNIS: A Common Architecture for String Utilities in the Go Programming Language"> 
-
-## UNIS: A Common Architecture for String Utilities in Go
-
+ ![](https://raw.githubusercontent.com/esemplastic/unis/master/logo.png)  UNIS: A Common Architecture for String Utilities in Go
 <p>
 <a href="https://travis-ci.org/esemplastic/unis"><img src="https://api.travis-ci.org/esemplastic/unis.svg?branch=master&style=flat-square" alt="Build Status"></a>
 <a href='https://coveralls.io/github/esemplastic/unis'><img src='https://coveralls.io/repos/github/esemplastic/unis/badge.svg?branch=master&style=flat-square' alt='Coverage Status' /></a>
@@ -10,6 +7,7 @@
 <a href="https://godoc.org/github.com/esemplastic/unis"><img src="https://img.shields.io/badge/docs-%20reference-5272B4.svg?style=flat-square" alt="Docs"></a>
 <a href="https://gitter.im/unis-go/Lobby#"><img src="https://img.shields.io/badge/community-%20chat-00BCD4.svg?style=flat-square" alt="Chat"></a>
 </p>
+
 
 `UNIS` shares a common architecture and the necessary `interfaces` that will help you to refactor your project or application to a better place to work on. Choose one way to organise your `string utilities`, across your different projects.
 
@@ -28,9 +26,10 @@ $ go get -u github.com/esemplastic/unis
 
 ## What's inside?
 
-* `Processor`: Manipulates and returns a new string, based on a receiver string.
-* `Validator`: Validates a receiver string and returns a boolean and an error.
-* `Divider`: Splits a receiver string into two pieces and returns them.
+* `Processor`: Manipulates a receiver string, based on the implementation, and returns its new format.
+* `Validator`: Validates a receiver string, based on the implementation, and returns a boolean and an error.
+* `Divider`: Splits a receiver string into two pieces, based on the implementation, and returns them.
+* `Joiner`: Receives two strings, combines them into one, based on the implementation, and returns it.
 
 ## Getting started
 
@@ -424,8 +423,8 @@ The goal is to make this repository authored by a `Community` which cares about 
 
 ## Versioning
 
-Current: **0.0.2**  
-Date: 7 May 2017
+Current: **0.0.3**  
+Date: 8 May 2017
 
 Read more about Semantic Versioning 2.0.0
 
@@ -443,7 +442,9 @@ A list of all contributors can be found [here](CONTRIBUTORS.md).
 
 ## TODO
 
-- [ ] Tests, Examples & more complete Documentation on realistic usecases.
+- [x] Tests
+- [x] Documentation
+- [ ] Advanced Examples and Usage on a real project.
 
 ## License
 
