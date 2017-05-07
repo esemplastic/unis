@@ -1,15 +1,15 @@
-<p align="center">
-<img width="442" height="177" src="https://github.com/esemplastic/unis/raw/master/logo.png" alt="UNIS: A Common Architecture for String Utilities in the Go Programming Language">
-</p>
+<img height="70"  src="https://raw.githubusercontent.com/esemplastic/unis/master/logo.png" style="float:left" alt="UNIS: A Common Architecture for String Utilities in the Go Programming Language"> 
 
-# UNIS: A Common Architecture for String Utilities in Go
+## UNIS: A Common Architecture for String Utilities in Go
 
+<p>
 <a href="https://travis-ci.org/esemplastic/unis"><img src="https://api.travis-ci.org/esemplastic/unis.svg?branch=master&style=flat-square" alt="Build Status"></a>
 <a href='https://coveralls.io/github/esemplastic/unis'><img src='https://coveralls.io/repos/github/esemplastic/unis/badge.svg?branch=master&style=flat-square' alt='Coverage Status' /></a>
 <a href="https://github.com/avelino/awesome-go"><img src="https://img.shields.io/badge/awesome-%E2%9C%93-ff69b4.svg?style=flat-square" alt="Awesome GoLang"></a>
 <a href="http://goreportcard.com/report/esemplastic/unis"><img src="https://img.shields.io/badge/report%20card%20-a%2B-006699.svg?style=flat-square" alt="http://goreportcard.com/report/esemplastic/unis"></a>
 <a href="https://godoc.org/github.com/esemplastic/unis"><img src="https://img.shields.io/badge/docs-%20reference-5272B4.svg?style=flat-square" alt="Docs"></a>
 <a href="https://gitter.im/unis-go/Lobby#"><img src="https://img.shields.io/badge/community-%20chat-00BCD4.svg?style=flat-square" alt="Chat"></a>
+</p>
 
 `UNIS` shares a common architecture and the necessary `interfaces` that will help you to refactor your project or application to a better place to work on. Choose one way to organise your `string utilities`, across your different projects.
 
