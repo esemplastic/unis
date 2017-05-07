@@ -325,7 +325,7 @@ type Validator interface {
 type ValidatorFunc func(str string) (bool, error)
 ```
 
-`Validators` can be used side by side with `Processors`,
+`Validators` can be used side by side with `Processors`.
 
 ```go
 // If receives a "validator" Validator and two Processors,
@@ -339,7 +339,7 @@ type ValidatorFunc func(str string) (bool, error)
 // "succeed", otherwise it runs the "failure".
 //
 // Remember: it returns a ProcessorFunc, meaning that can be used in a new chain too.
-func If(validator Validator, succeed Processor, failure Processor) ProcessorFunc
+If(validator Validator, succeed Processor, failure Processor) ProcessorFunc
 ```
 
 Example: 
@@ -350,12 +350,63 @@ mailTo := unis.If(unis.IsMail, unis.NewPrepender("mailto:"), unis.ClearProcessor
 // it checks if a string is an e-mail,if so then it runs the prepender
 // otherwise it runs the unis.ClearProcessor which returns an empty string.
 
-link := unis.If("ismail@homail.com") // link = "mailto:ismail@hotmail.com"
-link = unis.If("invalidmail@google.com.2") // link = ""
+mailTo("ismail@homail.com") // returns "mailto:ismail@hotmail.com"
+mailTo("invalidmail@google.com.2") // returns ""
 
 // [...]
 ```
-> `IsMail` is a `Validator`, see [expression_validator_test.go](https://github.com/esemplastic/unis/blob/master/expression_validator_test.go) for more.
+
+> `IsMail` is a `ValidatorFunc`, see [expression_validator_test.go](https://github.com/esemplastic/unis/blob/master/expression_validator_test.go) for more.
+
+
+`IsMail` is a built'n `Validator` based on a the `expression matcher` which accepts a regex expression and validates the receiver string. 
+ 
+```go
+// NewMatcher returns a new validator which
+// returns true and a nil error if the "expression"
+// matches against a receiver string.
+NewMatcher(expression string) ValidatorFunc
+```
+
+Let's create a custom matcher which matches if a string is a positive number.
+
+```go
+package main
+
+import (
+	"github.com/esemplastic/unis"
+)
+
+func main() {
+	isPositiveNumber := unis.NewMatcher("^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)$")
+	isPositiveNumber("-0") // or isPositiveNumber.Valid("-0"), returns false, nil 
+	isPositiveNumber("0") // returns false, nil
+	isPositiveNumber("0.1") // returns true, nil
+	isPositiveNumber("-1") // returns false, nil
+	isPositiveNumber("1") // returns true, nil
+	isPositiveNumber("astring") // returns false, nil
+}
+```
+
+The `error` output argument of the `NewMatcher` is filled when the expression is invalid.
+
+```go
+m := NewMatcher("\xf8\xa1\xa1\xa1\xa1")
+ok, err := m.Valid("something") // ok is false, err.Error() is "error parsing regexp: invalid UTF-8: ...."
+```
+
+UNIS never panics on its own functions, but we need a way to notify the user,
+in case he doesn't catch the `error` second output argument,
+that
+something critical happened before the validator returns (the `regexp.Compile` is happening before returning the validator).
+
+
+So we have a global `Logger` variable which accepts a receiver string message and logs to the console by-default.
+This behavior can be changed by setting the `Logger` to an empty func.
+
+```go
+unis.Logger = func(string){} // disables the logging of the "panic-level" messages.
+```
 
 
 ## Support
