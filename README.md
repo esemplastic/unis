@@ -51,7 +51,7 @@ type Processor interface {
 As you can see, it contains just a function which accepts a string and returns a string.
 Everything implements that interface only -- **No, please don't close the browser yet!**
 
-### TIP: Convert standard `strings` or `path` functions to `UNIS.Pocessor`
+### TIP: Convert standard `strings` or `path` functions to `UNIS.Processor`
 
 The majority of `strings` and `path` packages contain functions like 
 `strings.ToLower` which is a type of `func(string) string`, guess what -- `unis.ProcessorFunc` it's type of `func(string)string` too, so UNIS is 100% compatible with standard library!
