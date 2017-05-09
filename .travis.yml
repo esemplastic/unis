@@ -1,12 +1,17 @@
 language: go
+
 go:
-    - go1.7
-    - go1.8
-    - tip
+  - go1.7
+  - go1.8.x
+  - tip
+
 go_import_path: github.com/esemplastic/unis
+
 before_install:
-    - go get github.com/mattn/goveralls
-    - go get golang.org/x/tools/cmd/cover
+  - go get -t -v ./...
+
 script:
-    - $HOME/gopath/bin/goveralls -repotoken 8lMA45pznwDRJhGWY0ysJkanbzE8FLVD9 -service=travis-ci
-    - go test -race -v .
+  - go test -race -coverprofile=coverage.txt -covermode=atomic
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
