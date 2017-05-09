@@ -91,6 +91,6 @@ but it uses the `strings.Replace` (because it's fast), in this case we don't pre
 
 ## Testing
 
-Every new implementation should contain its test, even if it's small even if the tests doesn't cover everything, it should be there for case of any additions or improvements later on.
+Every new implementation should contain its test, even if it's small or it doesn't cover everything. It should be there in case of any improvements later on.
 
 Follow the test paradigm of the existing testing code on `*_test.go` files, we have a function which can help on the tests.
