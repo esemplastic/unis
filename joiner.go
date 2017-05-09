@@ -4,9 +4,27 @@
 
 package unis
 
+import "fmt"
+
 // Joiner should be implemented by all string joiners.
 type Joiner interface {
 	// Join takes two pieces of strings
 	// and returns a result of them, as one.
 	Join(part1 string, part2 string) string
+}
+
+// JoinerFunc is the alias type of Joiner, it implements the Joiner also.
+type JoinerFunc func(part1, part2 string) string
+
+// Join takes two pieces of strings and returns a result of them, as one.
+func (j JoinerFunc) Join(part1, part2 string) string {
+	return j(part1, part2)
+}
+
+// NewJoiner returns a new joiner which joins
+// two strings into one string, based on a "jointer".
+func NewJoiner(jointer string) JoinerFunc {
+	return func(part1, part2 string) string {
+		return fmt.Sprintf("%s%s%s", part1, jointer, part2)
+	}
 }
