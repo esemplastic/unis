@@ -1,7 +1,7 @@
  ![](https://raw.githubusercontent.com/esemplastic/unis/master/logo.png) **A Common Architecture for String Utilities in Go.**
 <p>
 <a href="https://travis-ci.org/esemplastic/unis"><img src="https://api.travis-ci.org/esemplastic/unis.svg?branch=master&style=flat-square" alt="Build Status"></a>
-<a href='https://coveralls.io/github/esemplastic/unis'><img src='https://coveralls.io/repos/github/esemplastic/unis/badge.svg?branch=master&style=flat-square' alt='Coverage Status' /></a>
+<a href='https://codecov.io/gh/esemplastic/unis/branch/master'><img src='https://img.shields.io/codecov/c/github/esemplastic/unis/master.svg' alt='Coverage Status' /></a>
 <a href="https://github.com/avelino/awesome-go"><img src="https://img.shields.io/badge/awesome-%E2%9C%93-ff69b4.svg?style=flat-square" alt="Awesome GoLang"></a>
 <a href="http://goreportcard.com/report/esemplastic/unis"><img src="https://img.shields.io/badge/report%20card%20-a%2B-006699.svg?style=flat-square" alt="http://goreportcard.com/report/esemplastic/unis"></a>
 <a href="https://godoc.org/github.com/esemplastic/unis"><img src="https://img.shields.io/badge/docs-%20reference-5272B4.svg?style=flat-square" alt="Docs"></a>
