@@ -28,3 +28,16 @@ func NewJoiner(jointer string) JoinerFunc {
 		return fmt.Sprintf("%s%s%s", part1, jointer, part2)
 	}
 }
+
+// NewJoinerChain takes a Joiner and a chain of Processors and joins the
+// Processors onto the output of the Joiner.
+func NewJoinerChain(joiner Joiner, processors ...Processor) JoinerFunc {
+	return func(part1, part2 string) (result string) {
+		result = joiner.Join(part1, part2)
+		for _, p := range processors {
+			result = p.Process(result)
+		}
+
+		return
+	}
+}
