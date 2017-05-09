@@ -434,7 +434,9 @@ Read more about Semantic Versioning 2.0.0
 
 ## Contributing
 
-If you are interested in contributing to the UNIS project, please make a [PR](https://github.com/esemplastic/unis/pulls).
+I'd love to see contributions! 
+
+If you are interested in contributing to the UNIS project, please read the [SPECS.md](SPECS.md) and make a [PR](https://github.com/esemplastic/unis/pulls).
 
 ## People
 
