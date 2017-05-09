@@ -1,5 +1,7 @@
 language: go
 go:
+    - go1.6
+    - go1.7
     - go1.8
     - tip
 go_import_path: github.com/esemplastic/unis

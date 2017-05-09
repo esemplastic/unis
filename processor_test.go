@@ -12,7 +12,7 @@ type originalAgainstResult struct {
 func testOriginalAgainstResult(p Processor, tests []originalAgainstResult, t *testing.T) {
 	for i, tt := range tests {
 		if expected, got := tt.result, p.Process(tt.original); expected != got {
-			t.Fatalf("%s[%d] - expected '%s' but got '%s'", t.Name(), i, expected, got)
+			t.Fatalf("%s[%d] - expected '%s' but got '%s'", getTestName(t), i, expected, got)
 		}
 	}
 }
